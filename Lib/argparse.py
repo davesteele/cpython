@@ -59,9 +59,6 @@ The module contains the following public classes:
         to the help.
 
 All other classes in this module are considered implementation details.
-(Also note that HelpFormatter and RawDescriptionHelpFormatter are only
-considered public as object names -- the API of the formatter objects is
-still considered an implementation detail.)
 """
 
 __version__ = '1.1'
