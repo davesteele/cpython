@@ -325,6 +325,10 @@ number of alternate formatters - :class:`RawDescriptionHelpFormatter`,
       This method is not intended to be called directly. It may be overridden
       by a subclass to define different formatting behavior.
 
+   .. versionchanged:: 3.14
+      Defined and exposed the :meth:`HelpFormatter.split_lines` and
+      :meth:`HelpFormatter.fill_text` methods.
+
 .. class:: RawDescriptionHelpFormatter
            RawTextHelpFormatter
            ArgumentDefaultsHelpFormatter
