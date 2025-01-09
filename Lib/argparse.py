@@ -154,8 +154,8 @@ def _copy_items(items):
 class HelpFormatter(object):
     """Formatter for generating usage messages and argument help strings.
 
-    Only the name of this class is considered a public API. All the methods
-    provided by the class are considered an implementation detail.
+    Only externally-documented methods are considered public. All other
+    interfaces provided by the class are considered an implementation detail.
     """
 
     def __init__(self,
@@ -473,7 +473,7 @@ class HelpFormatter(object):
             text = text % dict(prog=self._prog)
         text_width = max(self._width - self._current_indent, 11)
         indent = ' ' * self._current_indent
-        return self._fill_text(text, text_width, indent) + '\n\n'
+        return self.fill_text(text, text_width, indent) + '\n\n'
 
     def _format_action(self, action):
         # determine the required width and the entry label
@@ -507,7 +507,7 @@ class HelpFormatter(object):
         if action.help and action.help.strip():
             help_text = self._expand_help(action)
             if help_text:
-                help_lines = self._split_lines(help_text, help_width)
+                help_lines = self.split_lines(help_text, help_width)
                 parts.append('%*s%s\n' % (indent_first, '', help_lines[0]))
                 for line in help_lines[1:]:
                     parts.append('%*s%s\n' % (help_position, '', line))
@@ -617,12 +617,18 @@ class HelpFormatter(object):
         import textwrap
         return textwrap.wrap(text, width)
 
+    def split_lines(self, text, width):
+        return self._split_lines(text, width)
+
     def _fill_text(self, text, width, indent):
         text = self._whitespace_matcher.sub(' ', text).strip()
         import textwrap
         return textwrap.fill(text, width,
                              initial_indent=indent,
                              subsequent_indent=indent)
+
+    def fill_text(self, text, width, indent):
+        return self._fill_text(text, width, indent)
 
     def _get_help_string(self, action):
         return action.help
@@ -636,23 +642,16 @@ class HelpFormatter(object):
 
 class RawDescriptionHelpFormatter(HelpFormatter):
     """Help message formatter which retains any formatting in descriptions.
-
-    Only the name of this class is considered a public API. All the methods
-    provided by the class are considered an implementation detail.
     """
 
-    def _fill_text(self, text, width, indent):
+    def fill_text(self, text, width, indent):
         return ''.join(indent + line for line in text.splitlines(keepends=True))
 
 
 class RawTextHelpFormatter(RawDescriptionHelpFormatter):
-    """Help message formatter which retains formatting of all help text.
+    """Help message formatter which retains formatting of all help text."""
 
-    Only the name of this class is considered a public API. All the methods
-    provided by the class are considered an implementation detail.
-    """
-
-    def _split_lines(self, text, width):
+    def split_lines(self, text, width):
         return text.splitlines()
 
 

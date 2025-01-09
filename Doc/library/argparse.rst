@@ -290,8 +290,40 @@ formatter_class
 ^^^^^^^^^^^^^^^
 
 :class:`ArgumentParser` objects allow the help formatting to be customized by
-specifying an alternate formatting class.  Currently, there are four such
-classes:
+specifying an alternate formatting class. The :class:`HelpFormatter` class
+is the default formatter, used if none is specified. It is a base class for a
+number of alternate formatters - :class:`RawDescriptionHelpFormatter`,
+:class:`RawTextHelpFormatter`, :class:`ArgumentDefaultsHelpFormatter`, and
+:class:`MetavarTypeHelpFormatter`. 
+
+.. class:: HelpFormatter
+   :class::`HelpFormatter` provides the default text formatting. It is
+   subclassed to create the other available formatters. Two public methods are
+   defined, :meth:`HelpFormatter.split_lines` and
+   :meth:`HelpFormatter.fill_text`, which may be overridden by derived
+   formatters.
+
+   .. method:: HelpFormatter.split_lines(text, width)
+      This method formats the help text associated with each defined command
+      option. *text* is the text to be formatted, and *width* is the desired
+      maximum length of text for each line of the result.
+
+      The returned result is an array of lines containing the formatted text.
+
+      This method is not intended to be called directly. It may be overridden
+      by a subclass to define different formatting behavior.
+
+   .. method:: HelpFormatter.fill_text(text, width, indent)
+
+      This method formats the help text associated with the description and
+      epilog text. *text* is the text to be formatted. *width* is the desired
+      maximum length of text for each line of the result, including indent.
+      *indent* is the amount of leading padding desired for each line.
+
+      The returned result is a string containing the formatted text.
+
+      This method is not intended to be called directly. It may be overridden
+      by a subclass to define different formatting behavior.
 
 .. class:: RawDescriptionHelpFormatter
            RawTextHelpFormatter
